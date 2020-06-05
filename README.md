@@ -21,3 +21,14 @@ For contributing, checkout the [contribution guidelines][contribution docs] and 
 [visualization docs]: https://docs.datadoghq.com/tracing/visualization/
 [contribution docs]: https://github.com/DataDog/dd-trace-rb/blob/master/CONTRIBUTING.md
 [development docs]: https://github.com/DataDog/dd-trace-rb/blob/master/docs/DevelopmentGuide.md
+
+
+## Quick start
+
+docker-compose run --rm tracer-2.5 /bin/bash
+
+bundle install
+
+bundle exec appraisal install
+
+bundle exec appraisal contrib rake spec:qless

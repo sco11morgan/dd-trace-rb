@@ -3,7 +3,7 @@ module Datadog
     MAJOR = 0
     MINOR = 42
     PATCH = 0
-    PRE = nil
+    PRE = 'qless'
 
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
 
