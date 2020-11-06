@@ -91,41 +91,6 @@ RSpec.describe 'Qless instrumentation' do
     end
   end
 
-  context 'with forking' do
-    # it_should_behave_like 'job execution tracing'
-
-    context 'trace context' do
-      before(:each) do
-        expect(job_class).to receive(:perform) do
-          expect(tracer.active_span).to be_a_kind_of(Datadog::Span)
-          expect(tracer.active_span.parent_id).to eq(0)
-        end
-
-        # On completion of the fork, `Datadog.tracer.shutdown!` will be invoked.
-        expect(tracer.writer).to receive(:stop)
-
-        tracer.trace('main.process') do
-          perform_job(job_class)
-        end
-      end
-
-      let(:main_span) { spans.first }
-      let(:job_span) { spans.last }
-
-      xit 'is clean' do
-        expect(spans).to have(2).items
-        expect(failed_jobs.count).to eq(0)
-        expect(main_span.name).to eq('main.process')
-        expect(job_span.name).to eq('qless.job')
-        expect(main_span.trace_id).to_not eq(job_span.trace_id)
-      end
-    end
-
-    it 'ensures worker is using forking' do
-      expect(worker.class).to eq(Qless::Workers::ForkingWorker)
-    end
-  end
-
   describe 'patching for workers' do
     let(:worker_class_1) { Class.new }
     let(:worker_class_2) { Class.new }

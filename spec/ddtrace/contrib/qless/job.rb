@@ -30,7 +30,6 @@ RSpec.shared_context 'Qless job' do
   let(:client) { Qless::Client.new(host: host, port: port) }
   let(:queue) { client.queues['main'] }
   let(:reserver) { Qless::JobReservers::Ordered.new([queue]) }
-  # let(:worker) { Qless::Workers::SerialWorker.new(reserver) }
 
   let(:log_io) { TempfileWithString.new('qless.log') }
   let(:worker) do
@@ -57,21 +56,6 @@ RSpec.shared_context 'Qless job' do
     client.redis.keys.each {|k| client.redis.del k }
   end
 
-  # def after_fork
-  #   puts "====== spec.after_fork"
-  #   Datadog::Pin.get_from(Qless).tracer.writer = FauxWriter.new
-  # end
-
-  # class MyJobClass
-  #   # extend ::Qless::Job::SupportsMiddleware
-  #   # extend Datadog::Contrib::Qless::QlessJob
-  #   def self.perform(job)
-  #     # job is an instance of `Qless::Job` and provides access to
-  #     # job.data, a means to cancel the job (job.cancel), and more.
-  #     puts "=== MyJobClass"
-  #   end
-  # end
-
   let(:job_class) do
     stub_const('TestJob', Class.new).tap do |mod|
       mod.send(:define_singleton_method, :perform) do |job|
@@ -80,9 +64,4 @@ RSpec.shared_context 'Qless job' do
     end
   end
   let(:job_args) { {} }
-
-  # before(:each) do
-  #   Qless.after_fork { Datadog::Pin.get_from(Qless).tracer.writer = FauxWriter.new }
-  #   Qless.before_first_fork.each(&:call)
-  # end
 end
