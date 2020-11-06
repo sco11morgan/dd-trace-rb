@@ -5,7 +5,7 @@ module Datadog
   module Contrib
     module Qless
       module Configuration
-        # Custom settings for the Resque integration
+        # Custom settings for the Qless integration
         class Settings < Contrib::Configuration::Settings
           option :analytics_enabled do |o|
             o.default { env_to_bool(Ext::ENV_ANALYTICS_ENABLED, false) }
